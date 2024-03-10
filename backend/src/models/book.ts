@@ -31,7 +31,7 @@ export default class Book extends Model {
   publicationYear?: string;
 
   @Column({
-    type: DataType.STRING(255),
+    type: DataType.STRING(1000),
     field: "summary"
   })
   summary?: string;

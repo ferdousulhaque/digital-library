@@ -9,7 +9,7 @@ services:
         - POSTGRES_DB=${DB_DATABASE}
       volumes:
         - ./dbdata:/var/lib/postgresql/data
-        # - ./dbdump.sql:/docker-entrypoint-initdb.d/dbdump.sql
+        - ./db.sql:/docker-entrypoint-initdb.d/dbdump.sql
       ports:
         - "${DB_PORT}:5432"
   cache:

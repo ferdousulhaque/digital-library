@@ -33,6 +33,7 @@
 		"request": "^2.88.2",
 		"request-promise": "^4.2.6",
 		"sequelize": "^6.37.1",
+		"sequelize-cli": "^6.6.2",
 		"sequelize-typescript": "^2.1.6",
 		"simple-node-logger": "^18.12.24",
 		"tedis": "^0.1.12",

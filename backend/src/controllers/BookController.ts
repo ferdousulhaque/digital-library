@@ -8,7 +8,7 @@ class BookController {
 
     async index(req: Request, res: Response) {
         try {
-            res.status(201).json({
+            res.status(200).json({
                 status: "OK",
                 books: await BookService.getBooks()
             });
@@ -35,6 +35,71 @@ class BookController {
         } catch (err) {
             res.status(500).send({
                 message: "Something went wrong",
+                errors: err
+            });
+        }
+    }
+
+    async getById(req: Request, res: Response) {
+        const id: number = parseInt(req.params.id);
+
+        try {
+        const book = await BookService.getById(id);
+
+        if (book) res.status(200).send(book);
+        else
+            res.status(404).send({
+            message: `Cannot find Book No ${id}.`
+            });
+        } catch (err) {
+        res.status(500).send({
+            message: `Error retrieving book.`,
+            errors: err
+        });
+        }
+    }
+
+    async update(req: Request, res: Response) {
+        let book: Book = req.body;
+        book.id = parseInt(req.params.id);
+        if(Object.keys(req.body).length === 1){
+            res.status(400).send({
+            message: "No data to update"
+        });
+        }
+
+        try {
+        const num = await BookService.updateById(book);
+
+        if (num == 1) {
+            res.send({
+            message: "updated successfully."
+            });
+        }
+        } catch (err) {
+        res.status(500).send({
+            message: "Error updating",
+            errors: err
+        });
+        }
+    }
+
+    async delete(req: Request, res: Response) {
+        const id: number = parseInt(req.params.id);
+        try {
+            const book = await BookService.deleteById(id);
+
+            if (book) 
+                res.status(200).send({
+                    message: "Book deleted"
+                });
+            else
+                res.status(404).send({
+                message: `Cannot find Book No ${id}.`
+                });
+            } catch (err) {
+            res.status(500).send({
+                message: `Error retrieving book.`,
                 errors: err
             });
         }

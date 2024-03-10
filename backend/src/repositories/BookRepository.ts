@@ -8,10 +8,12 @@ class BookRepository implements BookRepoInt {
         try {
             return await Book.create({
             title: book.title,
-            description: book.summary,
+            author: book.author,
+            summary: book.summary,
             publicationYear: book.publicationYear
             });
         } catch (err) {
+            console.log(err)
             throw new Error("Failed to create!");
         }
     }

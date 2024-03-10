@@ -28,6 +28,40 @@ class BookService {
         await tedis.del("books");
         return savedBook
     }
+
+    async getById(bookId: number): Promise<Book | null>{
+        if(await tedis.exists(`books_${bookId}`)){
+            let getFromCache = await tedis.get(`books_${bookId}`);
+            return new Promise<Book | null>((resolve, reject) => {
+                if (typeof getFromCache === 'string') {
+                    resolve(JSON.parse(getFromCache));
+                }
+                reject("Failed")
+            })
+        }
+        let books = await BookRepository.retrieveById(bookId)
+        if(books){
+            await tedis.set(`books_${bookId}`, JSON.stringify(books));
+        }
+        
+        return books
+    }
+
+    async updateById(book: Book): Promise<number> {
+        await tedis.del("books");
+        return await BookRepository.update(book);
+    }
+
+    async deleteById(bookId: number): Promise<number>{
+        await tedis.del("books");
+        return BookRepository.delete(bookId)
+    }
+
+    // async fullTextSearch(searchWords: String): Promise<Book[]>{
+        
+    //     return 
+    // }
+
 }
 
 export default new BookService();
