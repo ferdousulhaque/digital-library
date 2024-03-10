@@ -57,10 +57,9 @@ class BookService {
         return BookRepository.delete(bookId)
     }
 
-    // async fullTextSearch(searchWords: String): Promise<Book[]>{
-        
-    //     return 
-    // }
+    fullTextSearch(searchWords: String){
+        return BookRepository.search(searchWords);
+    }
 
 }
 

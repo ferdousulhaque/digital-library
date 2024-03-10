@@ -1,7 +1,9 @@
 import Book from "../models/book";
-import { Op } from "sequelize";
+import { Op, QueryTypes } from "sequelize";
 import BookRepoInt from "./BookRepoInt";
 import SearchCondition from './SearchConditionInt';
+import { config, dialect } from "@config/database";
+import { Sequelize } from "sequelize-typescript";
 
 class BookRepository implements BookRepoInt {
     async save(book: Book): Promise<Book> {
@@ -73,6 +75,35 @@ class BookRepository implements BookRepoInt {
             });
         } catch (error) {
             throw new Error("Failed to delete all!");
+        }
+    }
+
+    async search(searchWords: String) {
+
+        try {
+            let sequelize = new Sequelize(
+                config.DB,
+                config.USER,
+                config.PASSWORD,
+                {
+                    host: config.HOST,
+                    dialect: dialect,
+                }
+            );
+
+            // Replace the SQL query with your own
+            const [results, metadata] = await sequelize.query(`
+                SELECT *
+                FROM ${Book.tableName}
+                WHERE _search @@ plainto_tsquery('english', :query);
+                `, {
+            replacements: { query: searchWords },
+            type: QueryTypes.SELECT,
+            });
+
+            return results;
+        }catch(ex){
+            console.log(ex);
         }
     }
 }

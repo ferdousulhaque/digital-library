@@ -104,6 +104,28 @@ class BookController {
             });
         }
     }
+
+    async search(req: Request, res: Response) {
+        const searchWords: String = req.body.search;
+        try {
+            let foundBook = await BookService.fullTextSearch(searchWords)
+            if (foundBook) 
+                res.status(200).send({
+                    result: foundBook,
+                    message: "Books Founded"
+                });
+            else{
+                res.status(404).send({
+                    message: `No Books found.`
+                });
+            }
+        } catch (err) {
+            res.status(500).send({
+                message: `Error retrieving book.`,
+                errors: err
+            });
+        }
+    }
 }
 
 export default new BookController()
