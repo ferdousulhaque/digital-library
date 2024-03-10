@@ -1,0 +1,20 @@
+version: '3'
+services:
+  postgres:
+      image: postgres:latest
+      container_name: digi_lib_db
+      environment:
+        - POSTGRES_USER=${DB_USER}
+        - POSTGRES_PASSWORD=${DB_PASS}
+        - POSTGRES_DB=${DB_DATABASE}
+      volumes:
+        - ./dbdata:/var/lib/postgresql/data
+        # - ./dbdump.sql:/docker-entrypoint-initdb.d/dbdump.sql
+      ports:
+        - "${DB_PORT}:5432"
+  cache:
+      container_name: cache
+      image: redis:7.2.4-alpine
+      ports:
+          - '6379:6379'
+      command: redis-server --save 20 1 --loglevel warning

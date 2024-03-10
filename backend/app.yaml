@@ -1,0 +1,9 @@
+apps:
+    - script: ./dist/server.js
+      name: digi-library-api
+      max-memory-restart: 500M
+      instances: 4
+      exec_mode: cluster
+      error_file: './log/err.log'
+      out_file: './log/out.log'
+      log_date_format: 'YYYY-MM-DD HH:mm:ss:SSS'

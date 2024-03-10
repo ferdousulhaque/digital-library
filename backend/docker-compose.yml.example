@@ -1,0 +1,20 @@
+version: '3'
+services:
+  app:
+    container_name: digi_lib_api
+    build:
+      context: ./
+    restart: always
+    environment:
+      - HOST_HOSTNAME=${HOSTNAME}
+    ports:
+      - "${PORT}:8082"
+    volumes:
+      - ./log:/opt/app/log
+    env_file:
+        - "./.env" 
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "3"
