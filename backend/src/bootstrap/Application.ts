@@ -9,6 +9,8 @@ class Application {
 
     constructor() {
         this.app = express();
+        this.app.use(express.json());
+        this.app.use(express.urlencoded({ extended: true }));
     }
 
     public boot(): Application {

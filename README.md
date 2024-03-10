@@ -23,6 +23,11 @@ Navigate to the following directories for the platforms
 
 ## CI/CD
 
+## Features
+
+- Built-in Cache Aside Policy with Redis Cache, hence once a get query is called, it will be cached for the next call.
+
+
 ## Scale the application
 
 ## Future Improvements
@@ -31,3 +36,5 @@ Navigate to the following directories for the platforms
 
 - Writing more test cases
 - Adding Swagger to the application
+- If time available would implement the JSON Schema validator to show if specific key validation failed or not
+- Would add pagination to the get books endpoints

@@ -5,9 +5,15 @@ import { Tedis } from "tedis";
 
 class BookService {
 
-    async getBooks(): Promise<String|null|number|Book[]>{
+    async getBooks(): Promise<String|number|Book[]>{
         if(await tedis.exists("books")){
-            return await tedis.get("books");
+            let getFromCache = await tedis.get("books");
+            return new Promise<String>((resolve, reject) => {
+                if (typeof getFromCache === 'string') {
+                    resolve(JSON.parse(getFromCache));
+                }
+                reject("Failed")
+            })
         }
         let books = await BookRepository.retrieveAll({})
         if(books.length > 0){
@@ -15,6 +21,12 @@ class BookService {
         }
         
         return books
+    }
+
+    async addBook(book: Book): Promise<Book>{
+        const savedBook = await BookRepository.save(book);
+        await tedis.del("books");
+        return savedBook
     }
 }
 
