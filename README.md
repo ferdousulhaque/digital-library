@@ -36,5 +36,6 @@ Navigate to the following directories for the platforms
 
 - Writing more test cases
 - Adding Swagger to the application
-- If time available would implement the JSON Schema validator to show if specific key validation failed or not
+- Adding more test cases
+- Make UI more beautiful
 - Would add pagination to the get books endpoints

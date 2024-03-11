@@ -16,7 +16,7 @@ RUN npm i -g pm2 pm2-logrotate
 
 # Bundle app source
 COPY src ./src
-COPY tests ./tests
+# COPY tests ./tests
 COPY .env ./.env
 
 COPY --chown=node:node \
@@ -31,5 +31,6 @@ RUN npm run compile
 
 # Running the application from PM2
 CMD [ "pm2-runtime", "app.yaml"]
+# CMD [ "node", "/opt/app/dist/server.js"]
 
 # HEALTHCHECK --interval=21s --timeout=3s --start-period=10s CMD node ./dist/healthcheck.js

@@ -13,8 +13,29 @@ services:
       ports:
         - "${DB_PORT}:5432"
   cache:
-      container_name: cache
+      container_name: digi_lib_cache
       image: redis:7.2.4-alpine
       ports:
           - '6379:6379'
       command: redis-server --save 20 1 --loglevel warning
+  app:
+    container_name: digi_lib_api
+    build:
+      context: ./backend/
+    restart: always
+    environment:
+      - HOST_HOSTNAME=${HOSTNAME}
+    ports:
+      - "${PORT}:8082"
+    volumes:
+      - ./log:/opt/app/log
+    env_file:
+        - "./.env" 
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "3"
+    depends_on:
+      - cache
+      - postgres

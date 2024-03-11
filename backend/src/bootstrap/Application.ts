@@ -3,6 +3,7 @@ import http from "http";
 import router from "@routes/index";
 import config from "@config/config";
 import Database from "../db";
+import cors from "cors";
 
 class Application {
     private readonly app: Express;
@@ -11,6 +12,7 @@ class Application {
         this.app = express();
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
+        this.app.use(cors());
     }
 
     public boot(): Application {
