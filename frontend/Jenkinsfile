@@ -1,0 +1,26 @@
+pipeline {
+    agent {
+            any
+    }
+    
+    environment {
+        DEPLOY_HOST="<IP>"
+        USERNAME="<UserName>"
+        PROJECT_DIR="<Directory>"
+    }
+
+    stages {       
+        stage('Docker Build') {
+            steps {
+                // Build the new codes
+                sh "ssh ${USERNAME}@${DEPLOY_HOST} \"cd ${PROJECT_DIR};docker compose build\""
+            }
+        }
+        stage('Deploy') {
+            steps {
+                // Deploy and run the new codes
+                sh "ssh ${USERNAME}@${DEPLOY_HOST} \"cd ${PROJECT_DIR};docker compose up -d\""
+            }
+        }
+    }
+}

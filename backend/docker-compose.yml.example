@@ -8,7 +8,7 @@ services:
     environment:
       - HOST_HOSTNAME=${HOSTNAME}
     ports:
-      - "${PORT}:8082"
+      - "${API_PORT}:8082"
     volumes:
       - ./log:/opt/app/log
     env_file:

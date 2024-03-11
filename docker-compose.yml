@@ -18,7 +18,7 @@ services:
       ports:
           - '6379:6379'
       command: redis-server --save 20 1 --loglevel warning
-  app:
+  api:
     container_name: digi_lib_api
     build:
       context: ./backend/
@@ -26,7 +26,7 @@ services:
     environment:
       - HOST_HOSTNAME=${HOSTNAME}
     ports:
-      - "${PORT}:8082"
+      - "${API_PORT}:8082"
     volumes:
       - ./log:/opt/app/log
     env_file:
@@ -39,3 +39,21 @@ services:
     depends_on:
       - cache
       - postgres
+  app:
+    container_name: digi_lib_app
+    build:
+      context: ./frontend/
+    restart: always
+    environment:
+      - HOST_HOSTNAME=${HOSTNAME}
+    ports:
+      - "${PORT}:3000"
+    env_file:
+        - "./.env"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "3"
+    depends_on:
+      - api

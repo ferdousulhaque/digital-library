@@ -19,6 +19,19 @@ Navigate to the following directories for the platforms
 
 
 ## Run the app
+Steps to start the app are as below
+
+1. Clone the git repo to your desired location
+2. Copy the .env.example to the locations
+```bash
+cp -av .env.example .env
+cp -av .env.example backend/.env
+cp -av .env.example frontend/.env
+```
+3. Now start the docker application and run the docker build
+```bash
+docker compose build
+```
 
 
 ## CI/CD
@@ -39,3 +52,6 @@ Navigate to the following directories for the platforms
 - Adding more test cases
 - Make UI more beautiful
 - Would add pagination to the get books endpoints
+- Add More linting to avoid any surprize bugs and code standardization
+- Complete the github workflow actions [however added one example]
+

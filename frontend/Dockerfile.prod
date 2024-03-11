@@ -1,0 +1,19 @@
+# Node Environment
+FROM node:20-alpine as builder
+
+WORKDIR /app
+COPY package.json .
+COPY yarn.lock .
+RUN rm -rf ./build
+RUN yarn install
+COPY . .
+RUN yarn build
+
+# Nginx Environment
+FROM nginx:1.25-alpine
+WORKDIR /usr/share/nginx/html
+RUN rm -rf ./*
+COPY --from=builder /app/build .
+# Static Pages
+COPY --from=builder /app/default.conf /etc/nginx/conf.d/default.conf
+ENTRYPOINT ["nginx", "-g", "daemon off;"]

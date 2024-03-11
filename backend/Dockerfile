@@ -24,7 +24,7 @@ COPY --chown=node:node \
      tsconfig.json \
      ./  
 
-EXPOSE ${PORT}
+EXPOSE ${API_PORT}
 
 # Typescript to JS Compiler
 RUN npm run compile
