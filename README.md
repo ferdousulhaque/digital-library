@@ -24,8 +24,10 @@ Full API documentation in the following [Postman Collection File](https://github
 
 ## Pages
 
-- Books List Page with Search
-- Books Add Page
+- Books List Page with Search [`/`]
+- Books Add Page [`/add-book`]
+- Books Update Page [`/update-book/:id`] - in-complete
+- Book Delete [`/delete-book/:id`] - in-complete
 
 ## Pre-requisites
 Docker app in the laptop only.
