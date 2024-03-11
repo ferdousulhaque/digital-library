@@ -1,7 +1,19 @@
-import React from "react";
-import { Card } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Card, Button } from "react-bootstrap";
+import axios from "axios";
 
-const BookList = ({ books }) => {
+const BookList = ({ books, bookState }) => {
+
+  const onDeleteBook = async (bookId) => {
+    // Perform the deletion logic (e.g., make an API call)
+        // Fetch data from your API or use a sample API
+        await axios
+          .delete(`http://localhost:8082/v1/book/${bookId}`)
+          .then(() => bookState(books.filter((book) => book.id !== bookId)))
+          .catch((error) => console.error("Error fetching data: ", error));
+    // console.log(`Deleting book with id ${bookId}`);
+  };
+
   return (
     <div className="book-list">
       {books.map((book) => (
@@ -16,6 +28,9 @@ const BookList = ({ books }) => {
               {book.title} - {book.author} - {book.publicationYear}
             </Card.Title>
             <Card.Body>{book.summary}</Card.Body>
+            <Button variant="danger" onClick={() => onDeleteBook(book.id)}>
+              Delete Book
+            </Button>
           </Card.Body>
         </Card>
       ))}

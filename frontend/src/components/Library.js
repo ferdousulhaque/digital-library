@@ -26,7 +26,7 @@ const Library = () => {
   return (
     <div>
       <SearchBar onSearch={handleSearch} />
-      <BookList books={filteredBooks} />
+      <BookList books={filteredBooks} bookState={setBooks}/>
     </div>
   );
 };
