@@ -1,0 +1,34 @@
+# app-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: digi-app
+  template:
+    metadata:
+      labels:
+        app: digi-app
+    spec:
+      containers:
+      - name: app-container
+        image: digi_lib_app:latest
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-nodeport-service
+spec:
+  selector:
+    app: digi-app
+  ports:
+    - protocol: TCP
+      port: 3000  # The port on the service
+      targetPort: 3000  # The port on the pod
+  type: NodePort
