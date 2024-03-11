@@ -74,9 +74,9 @@ docker compose up -d
 
 1. To scale up the backend of the application can run multiple instances of the backend API in the pm2 `app.yaml` file to add more instances. NOTE: each instance will create connection pool with the database. Hence while scaling, please do check that.
 
-2. Backend can also be scaled up using the docker image file. Follow the `k8s-deployment.yml` for scaling the backend using the image.
+2. Backend can also be scaled up using the docker image file. Follow the `api-deployment.yml` for scaling the backend using the image.
 
-3. To scale up the frontend, just run multiple instances of the docker image, if you push into the docker image registry. Or can run the frontend images with replication count in the `k8s-deployment.yml` file
+3. To scale up the frontend, just run multiple instances of the docker image, if you push into the docker image registry. Or can run the frontend images with replication count in the `app-deployment.yml` file
 
 ## Future Improvements
 
