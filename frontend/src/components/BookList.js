@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import {useNavigate} from 'react-router-dom';
 import { Card, Button } from "react-bootstrap";
 import axios from "axios";
 
 const BookList = ({ books, bookState }) => {
+  const navigate = useNavigate();
 
   const onDeleteBook = async (bookId) => {
     // Perform the deletion logic (e.g., make an API call)
@@ -12,6 +14,10 @@ const BookList = ({ books, bookState }) => {
           .then(() => bookState(books.filter((book) => book.id !== bookId)))
           .catch((error) => console.error("Error fetching data: ", error));
     // console.log(`Deleting book with id ${bookId}`);
+  };
+
+  const onEditBook = async (bookId) => {
+    navigate(`/edit-book/${bookId}`);
   };
 
   return (
@@ -28,8 +34,11 @@ const BookList = ({ books, bookState }) => {
               {book.title} - {book.author} - {book.publicationYear}
             </Card.Title>
             <Card.Body>{book.summary}</Card.Body>
+            <Button variant="warning" onClick={() => onEditBook(book.id)}>
+              Edit
+            </Button>
             <Button variant="danger" onClick={() => onDeleteBook(book.id)}>
-              Delete Book
+              Delete
             </Button>
           </Card.Body>
         </Card>
