@@ -16,17 +16,28 @@ const Library = () => {
   }, []);
 
   const handleSearch = (term) => {
-    setSearchTerm(term);
+    setTimeout(async () => {
+      let searchData = {
+        search: term
+      }
+      const response = await axios.post(
+        "http://localhost:8082/v1/books/search",
+        searchData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setBooks(response.data.result);
+    }
+    , 500)
   };
-
-  const filteredBooks = books.filter((book) =>
-    book.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   return (
     <div>
       <SearchBar onSearch={handleSearch} />
-      <BookList books={filteredBooks} bookState={setBooks}/>
+      <BookList books={books} bookState={setBooks}/>
     </div>
   );
 };

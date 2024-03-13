@@ -92,13 +92,14 @@ class BookRepository implements BookRepoInt {
             );
 
             // Replace the SQL query with your own
-            const [results, metadata] = await sequelize.query(`
+            const results = await sequelize.query(`
                 SELECT *
                 FROM ${Book.tableName}
                 WHERE _search @@ plainto_tsquery('english', :query);
                 `, {
             replacements: { query: searchWords },
             type: QueryTypes.SELECT,
+            model: Book
             });
 
             return results;
