@@ -20,16 +20,22 @@ const Library = () => {
       let searchData = {
         search: term
       }
-      const response = await axios.post(
-        "http://localhost:8082/v1/books/search",
-        searchData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      setBooks(response.data.result);
+
+      if(term === '' || term === undefined || term === null){
+          axios
+        .get("http://localhost:8082/v1/books")
+        .then((response) => setBooks(response.data.books))
+        .catch((error) => console.error("Error fetching data: ", error));
+      }else{
+          axios
+            .post("http://localhost:8082/v1/books/search", searchData, {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            })
+            .then((response) => setBooks(response.data.result))
+            .catch((error) => console.error("Error fetching data: ", error));;
+      }
     }
     , 500)
   };
